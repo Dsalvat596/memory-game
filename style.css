@@ -36,7 +36,7 @@ h1 {
 .deck {
 	width: 85%;
 	background: #716F71;
-	padding: 1rem;
+	padding: 1.0rem;
 	border-radius: 4px;
 	box-shadow: 8px 9px 26px 0 rgba(46, 61, 73, 0.5);
 	display: flex;
@@ -47,9 +47,9 @@ h1 {
 }
 
 .deck .card {
-	height: 12.0rem;
-	width: 12.0rem;
-	margin: 0.2rem 0.2rem;
+    height: 12.4rem;
+	width: 22%;
+	margin: 0.4rem 0.4rem;
 	background: #141214;;
 	font-size: 0;
 	color: #ffffff;
@@ -59,6 +59,15 @@ h1 {
 	justify-content: center;
 	align-items: center;
 	box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+}
+@media only screen and (max-width: 768px) {
+    /* For desktop: */
+    .deck .card {height: 8.0rem};
+}
+
+@media only screen and (min-width: 768px) {
+    /* For desktop: */
+    .deck .card {height: 12.4rem};
 }
 
 .deck .card.open {
@@ -72,7 +81,7 @@ h1 {
 }
 
 .deck .card.show {
-	font-size: 33px;
+    font-size: 33px;
 }
 .deck .card.match {
 	cursor: default;

@@ -108,7 +108,7 @@ function enable(){
 
 function moveCounter(){    
     moves++;    
-    counter.innerText = moves;
+    counter.html(moves);
 }
 
 window.onload = startGame();
