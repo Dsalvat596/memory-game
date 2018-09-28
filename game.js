@@ -4,13 +4,23 @@ let cardLoop = 0;
 let list = $('.deck');
 let moves = 0;
 let counter = $('.moves')
+let restartButton = $('.restart')[0]
+
+restartButton.addEventListener("click", restart)
 
 //declare cards globally
 let cards = [...$('.card')]  //... spread converts nodelist to true array
 
 // declaring variable of matchedCards
-let matchedCard = $(".match");
-const startGame = () => {
+let matchedCard = [...$(".match")];
+
+document.body.onload = startGame();
+
+function startGame (){
+    moves = 0;
+    cardLoop = 0;
+    counter.html(moves);
+    list.html('');
     while(cardLoop < 2){
         shuffleCards(cardIcons);
         for(let i = 0; i <cardIcons.length; i++){
@@ -30,7 +40,7 @@ const startGame = () => {
 }
 
 // array randomizer algorithm
-const shuffleCards = (array) => {
+function shuffleCards(array){
     var i = 0
         , j = 0
         , temp = null
@@ -42,7 +52,7 @@ const shuffleCards = (array) => {
         array[j] = temp
     }
 }
-const displayCard = function (){
+function displayCard() {
     this.classList.toggle("open");
     this.classList.toggle("show");
     this.classList.toggle("disabled");
@@ -51,19 +61,24 @@ const displayCard = function (){
 
 // check for matches
 
-const cardOpen = function () {
+function cardOpen() {
     openedCards.push(this)
-    let len = openedCards.length;
     if(openedCards.length === 2){
         moveCounter();
         console.log(moves)
         if(openedCards[0].type === openedCards[1].type){
             matched();
+            if(matchedCard.length === cardIcons.length){
+                setTimeout(function(){
+                    alert(`you won nibba!  It took you ${moves} tries!`);
+                startGame();
+                }, 500);
+            }
         } else {
             unMatched();
         }
     }
-}
+};
 
 
 //handle matches
@@ -73,6 +88,8 @@ const matched = function(){
     openedCards[0].classList.remove("show", "open");
     openedCards[1].classList.remove("show", "open");
     openedCards = [];
+    matchedCard.push(this.card);
+    console.log(matchedCard);
 }
 
 //handle unmatches
@@ -80,35 +97,44 @@ const matched = function(){
 const unMatched = function(){
     openedCards[0].classList.add("unmatched");
     openedCards[1].classList.add("unmatched");
-    disable();
+    //disable();
     setTimeout(function(){
         openedCards[0].classList.remove("show", "open", "unmatched");
         openedCards[1].classList.remove("show", "open", "unmatched");
-        enable();
+        openedCards[0].classList.remove("disabled");
+        openedCards[1].classList.remove("disabled");
+       // enable();
         openedCards = [];
     },1100);  
 }
 
 //disable cards temporarily
-function disable(){
-    Array.prototype.filter.call(cards, function(card){
-        card.classList.add('disabled');
-    });
-}
+// function disable(){
+//     Array.prototype.filter.call(cards, function(card){
+//         card.classList.add('disabled');
+//     });
+// }
 
 //enable cards and disable matched cards
-function enable(){
-    Array.prototype.filter.call(cards, function(card){
-        card.classList.remove('disabled');
-        for(let i = 0; i < matchedCard.length; i++){
-            matchedCard[i].classList.add("disabled");
-        }
-    });
-}
-
+// function enable(){
+    
+//     console.log(matchedCard);
+    
+// }
+//updates the moves counter
 function moveCounter(){    
     moves++;    
     counter.html(moves);
-}
+};
 
-window.onload = startGame();
+
+//handles game over
+function gameOver(){
+    alert(`You Win!  It took you ${moves} moves!`)
+}
+// when restart button clicked
+function restart(){
+    startGame();
+};
+
+
