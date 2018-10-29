@@ -18,9 +18,6 @@ let close = $(".close");
 
 restartButton.addEventListener("click", restart);
 
-//declare cards globally
-let cards = [...$(".card")]; //... spread converts nodelist to true array
-
 // declaring variable of matchedCards
 let matchedCard = [...$(".match")];
 
@@ -104,30 +101,33 @@ const matched = function() {
 const unMatched = function() {
   openedCards[0].classList.add("unmatched");
   openedCards[1].classList.add("unmatched");
-  //disable();
+  disable();
   setTimeout(function() {
     openedCards[0].classList.remove("show", "open", "unmatched");
     openedCards[1].classList.remove("show", "open", "unmatched");
     openedCards[0].classList.remove("disabled");
     openedCards[1].classList.remove("disabled");
-    // enable();
+    enable();
     openedCards = [];
   }, 1100);
 };
 
 //disable cards temporarily
-// function disable(){
-//     Array.prototype.filter.call(cards, function(card){
-//         card.classList.add('disabled');
-//     });
-// }
+function disable() {
+  //declare cards globally
+  let cards = [...$(".card")]; //... spread converts nodelist to true array
+  cards.forEach(function(element) {
+    element.classList.add("disabled");
+  });
+}
 
-//enable cards and disable matched cards
-// function enable(){
-
-//     console.log(matchedCard);
-
-// }
+// enable cards and disable matched cards
+function enable() {
+  let cards = [...$(".card")];
+  cards.forEach(function(element) {
+    element.classList.remove("disabled");
+  });
+}
 //updates the moves counter
 function moveCounter() {
   moves++;
